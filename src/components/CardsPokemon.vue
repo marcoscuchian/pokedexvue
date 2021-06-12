@@ -2,49 +2,50 @@
   <div>
     <div v-if="intro" class="introActive d-flex justify-center ">
 
-       <div>
-          <img src="../assets/img/135733b07291badc8cb3c083d4fd90b0.gif" alt  class="imgIntro"/>
+      <div class=" IntroImg">
+          <img contain src="../assets/img/135733b07291badc8cb3c083d4fd90b0.gif" alt  class="imgIntro"/>
      </div>
 
   
     </div>
-    <v-container grid-list-md pl-14>
-      <h1>{{introSt}}</h1>
-      <v-row row wrap>
-        <v-col md="3" v-for="poke in arrayPokeSt" :key="poke.name">
+    <v-container grid-list-md pl-14 class="AllCards">
+      <v-row row wrap >
+        <v-col md="3" xs="12"   v-for="poke in arrayPokeSt" :key="poke.name">
           <v-card
+            contain
             elevation="15"
-            width="250px"
+             width="250px"
             height="250px"
             class="pokeCard rounded-xl pokeCard"
             @click="obtenerPokemon(poke.id); dialog = true"
           >
-            <div class="d-flex justify-md-center">
+            <div class="d-flex justify-md-center ImgCard">
               <v-img
                 contain
-                :src="poke.sprites.other.dream_world.front_default"
+                :src="poke.img"
                 width="200px"
                 height="200px"
               ></v-img>
             </div>
             <v-card-actions>
-              <v-btn block class="rounded-xl yellow">{{poke.name}}</v-btn>
+              <v-btn block  class="rounded-xl yellow buttonCard ">{{poke.name}}</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
     </v-container>
 
-    <v-dialog v-model="dialog" class="rounded-xl red lighten-4">
-      <v-card class="rounded-xl dialogPoke">
+    <v-dialog v-model="dialog" class="rounded-xl red lighten-4 ">
+      <v-card class="rounded-xl dialogPoke  ">
         <v-container>
           <v-row p-1>
-            <v-col md="4" color="primary">
+            <v-col md="4"  class=" d-flex justify-xs-center" color="primary">
               <v-img class="imgPoke" contain :src="imgPokeSelect" height="400px" width="400px"></v-img>
             </v-col>
             <v-col md="8">
               <v-card-title class="justify-center" size="500">
-                <h1 class="text-uppercase">{{pokeSelect.name}}</h1>
+                <h2 class="text-uppercase">
+                {{pokeSelect.name}}</h2>
               </v-card-title>
               <v-divider></v-divider>
 
@@ -104,7 +105,7 @@ export default {
   }),
 
   mounted() {
-    this.getByPokeSt();
+    this.getByPokeSt('');
   },
   beforeUpdate() {
     this.intro = false;
@@ -124,7 +125,7 @@ export default {
 
 
 
-<style scoped>
+<style >
 .v-input__slot {
   background: black;
 }
@@ -160,11 +161,66 @@ export default {
 }
 
 .introActive {
-  background: rgba(121, 119, 0, 0.705) !important;
+  background: rgba(5, 5, 4, 0.705) !important;
   height: 200vh;
   z-index: 100;
   top: 0;
-  bottom: 0;
+  position: relative;
+  top: -140px;
+  
 }
+
+
+
+@media only screen and (max-width: 600px) {
+
+  .imgIntro {
+    position: relative;
+    width: 300px;
+    left: 50px;
+    top: 200px;
+  }
+  .pokeCard{
+    width: 140px !important;
+    height: 140px !important;
+  }
+
+  .ImgCard{
+    position: relative;
+    width: 60% !important;
+    height: 100px !important;
+    bottom: 35px !important;
+    left: 10px !important
+
+  }
+  .buttonCard{
+    position: relative;
+    bottom: 7px !important;
+  }
+  .AllCards{
+    margin-left: 20px !important;
+  }
+
+.dialogPoke {
+  background: rgba(12, 12, 9, 0.644) !important;
+  color: white !important ;
+  border: 2px solid black;
+  width: 300px !important;
+  height: 550px !important;
+  padding-bottom: 0;
+  left: 80px;
+}
+.dialogPoke h1{
+  font-size: 25px;
+}
+
+.imgPoke{
+  width: 150px !important;
+  height: 150px !important;
+}
+
+
+}
+
 
 </style>

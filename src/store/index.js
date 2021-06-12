@@ -10,37 +10,99 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    drawer:false,
-    arrayPokeSt:[],
-    pokeSelect:[],
+    drawer: false,
+    arrayPokeSt: [],
+    arrayAllPokeSt: [],
+    pokeSelect: [],
     imgPokeSelect: null,
+    pokeSearch: [],
+    imgPokeSearch: null,
+    messageSEarchPOke:"",
+
   },
   mutations: {
-    showDrawer(state){
+    showDrawer(state) {
       state.drawer = !state.drawer;
     },
 
 
 
-    llenarPokes(state, pokeAccion){
+    llenarPokes(state, pokeAccion) {
       state.arrayPokeSt = pokeAccion
     },
 
 
-    colocarNombre(state, pokeAction){
-      state.pokeSelect = pokeAction;
-      state.imgPokeSelect =  pokeAction.sprites.other.dream_world.front_default;
+
+    llenarAllPokes(state, pokeAccion) {
+      state.arrayAllPokeSt = pokeAccion
+    },
+
+    
+    
+
+
+    colocarNombre(state, pokeActionAll) {
+      state.pokeSelect = pokeActionAll;
+      state.imgPokeSelect = pokeActionAll.sprites.other.dream_world.front_default;
+    },
+    buscarPoke(state, pokeActionAll, message) {
+      state.pokeSearch = pokeActionAll;
+      state.imgPokeSearch = pokeActionAll.sprites.other.dream_world.front_default;
+      state.messageSEarchPOke = message;
     },
 
   },
   actions: {
+
 
     obtenerPokemon: async function (context, id) {
 
       const data = await fetch('https://pokeapi.co/api/v2/pokemon/' + id);
       const pokemon = await data.json();
       context.commit('colocarNombre', pokemon);
-      console.log("llegamos a la accion que selecciona el pokemon",pokemon.name)
+    },
+
+    buscarPokemon: async function (context, id) {
+
+
+      const data = await fetch('https://pokeapi.co/api/v2/pokemon/' + id);
+      if (!data.ok) {
+        const message = `An error has occured: ${data.status}`;
+        throw new Error(message);
+      }    
+
+
+      const pokemon = await data.json();
+      context.commit('buscarPoke', pokemon);
+    },
+
+    getByPokeSt:  async function (context, search) {
+      let urlEnd = search ? `/${search}` : '?limit=100';
+      const imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/"
+      let response = [];
+      const data = await fetch(`https://pokeapi.co/api/v2/pokemon${urlEnd}`);
+      const dataJson = await data.json();
+
+      console.log(dataJson);
+      if (Array.isArray(dataJson.results)){
+        response = dataJson.results.map(element =>  {
+          const id = element.url.split('pokemon/')[1].replace('/', '');
+          return {
+            ...element, 
+            img: `${imgUrl}${id}.svg`,
+            id,
+          };
+        });
+      } else {
+        response = [{
+        ...dataJson,
+        img: `${imgUrl}${dataJson.id}.svg`, 
+        
+        }]
+      }
+      context.commit('llenarPokes', response)
+
+    },
   },
 
 
@@ -48,47 +110,6 @@ export default new Vuex.Store({
 
 
 
-     getByPokeSt:  async function(context,state){
-        const respondePOk = [];
-        let n = 1 ;
-          while (n < 30){    
-          const data = await fetch(`https://pokeapi.co/api/v2/pokemon/${n}`);
-          const response = await data.json();
-          respondePOk.push(response)
-          n += 1;
-        }
-        const ak = respondePOk;
-        context.commit('llenarPokes',respondePOk)
-        
-      },
-    },
-
-
-
-
-    //  getByPokeSt: async function({commit}) {
-    //    const responsePOk = [];
-    //    for (let n = 1; n < 4 ; n++) {
-    //      console.log("llega a while en store",n)
-    //      console.log(n)
-    //      try {
-    //        const response = await axios.get(
-    //          `https://pokeapi.co/api/v2/pokemon/${n}`
-    //          );
-    //          responsePOk.push(response.data);
-    //          console.log(responsePOk)
-    //          return responsePOk;
-    //         } catch (error) {
-    //           const response = false;
-    //           return response;
-    //         }
-            
-
-    // }
-
-
-    // commit('llenarPokes',responsePOk)
-    // },
   modules: {
   }
 })
