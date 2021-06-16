@@ -1,66 +1,101 @@
 <template>
   <div>
-    <div v-if="intro" class="introActive d-flex justify-center ">
-
-      <div class=" IntroImg">
-          <img contain src="../assets/img/135733b07291badc8cb3c083d4fd90b0.gif" alt  class="imgIntro"/>
-     </div>
-
-  
+    <div v-if="intro" class="introActive d-flex justify-center">
+      <div>
+        <img
+          contain
+          src="../assets/img/135733b07291badc8cb3c083d4fd90b0.gif"
+          width="500"
+          class="imgIntro pt-8"
+        />
+      </div>
     </div>
     <v-container grid-list-md pl-14 class="AllCards">
-      <v-row row wrap >
-        <v-col md="3" xs="12"   v-for="poke in arrayPokeSt" :key="poke.name">
+      <v-row row wrap>
+        <v-col md="3" xs="12" v-for="poke in arrayPokeSt" :key="poke.name">
           <v-card
+            title="Ver Pókemon"
             contain
             elevation="15"
-             width="250px"
+            width="250px"
             height="250px"
-            class="pokeCard rounded-xl pokeCard"
+            class="pokeCard rounded-xl"
             @click="obtenerPokemon(poke.id); dialog = true"
           >
             <div class="d-flex justify-md-center ImgCard">
-              <v-img
-                contain
-                :src="poke.img"
-                width="200px"
-                height="200px"
-              ></v-img>
+              <v-img contain :src="poke.img" width="200px" height="200px"></v-img>
             </div>
             <v-card-actions>
-              <v-btn block  class="rounded-xl yellow buttonCard ">{{poke.name}}</v-btn>
+              <v-btn block class="rounded-xl yellow buttonCard">{{poke.name}}</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
     </v-container>
 
-    <v-dialog v-model="dialog" class="rounded-xl red lighten-4 ">
-      <v-card class="rounded-xl dialogPoke  ">
+    <v-dialog v-model="dialog" class="rounded-xl d-flex justify-center">
+      <v-card class="rounded-xl dialogPoke d-flex justify-center py-0">
         <v-container>
           <v-row p-1>
-            <v-col md="4"  class=" d-flex justify-xs-center" color="primary">
-              <v-img class="imgPoke" contain :src="imgPokeSelect" height="400px" width="400px"></v-img>
+            <v-col md="4" class="d-flex justify-xs-center py-0" color="primary">
+              <v-img class="imgPoke" contain :src="imgPokeSelect" height="350px" width="350px"></v-img>
             </v-col>
-            <v-col md="8">
-              <v-card-title class="justify-center" size="500">
-                <h2 class="text-uppercase">
-                {{pokeSelect.name}}</h2>
+
+            <v-col md="8" class="pt-4">
+              <v-card-title class="d-flex pa-0 pa-sm-4 justify-center grey darken-4 rounded-xl">
+                <h1 class="text-uppercase">{{pokeSelect.name}}</h1>
               </v-card-title>
               <v-divider></v-divider>
 
-              <v-card-text>
-                <h1>ID : {{pokeSelect.id}}</h1>
-                <br />
-                <h1>Altura : {{pokeSelect.height}}0 cm</h1>
-                <br />
-
-                <h1>Peso : {{pokeSelect.weight}}0 g</h1>
-                <br />
-                <h1>Base experiencia : {{pokeSelect.base_experience}}</h1>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn block class="rounded-xl buttAg" dark @click="dialog = false">Ver Menos</v-btn>
+              <v-row class="d-flex justify-center">
+                <v-col cols="12" class="d-flex justify-center">
+                  <h2>ID : {{pokeSelect.id}}</h2>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-simple-table dark class="transparent">
+                    <template>
+                      <tbody>
+                        <tr>
+                          <td>Altura</td>
+                          <td>{{pokeSelect.height}}0 cm</td>
+                        </tr>
+                        <tr>
+                          <td>Peso</td>
+                          <td>{{pokeSelect.weight}}0 g</td>
+                        </tr>
+                        <tr>
+                          <td>Base experiencia</td>
+                          <td>{{pokeSelect.base_experience}}</td>
+                        </tr>
+                        <tr v-if="pokeSelect.evolucion">
+                          <td>Evoluciona de:</td>
+                          <td
+                            v-if="pokeSelect.evolucion"
+                          >{{ pokeSelect.evolucion.name.toUpperCase() }}</td>
+                        </tr>
+                        <tr>
+                          <td>Es bebe:</td>
+                          <td v-if="pokeSelect.is_baby">{{pokeSelect.is_baby.toUpperCase()}}</td>
+                        </tr>
+                        <tr>
+                          <td>Es Legendario:</td>
+                          <td v-if="pokeSelect.is_legendary"
+                            
+                          >{{pokeSelect.is_legendary.toUpperCase()}}</td>
+                        </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-row class="py-0">
+            <v-col class="py-0">
+              <v-card-actions class="py-0">
+                <v-btn block class="rounded-xl py-0" dark @click="dialog = false">Ver Menos</v-btn>
               </v-card-actions>
             </v-col>
           </v-row>
@@ -81,31 +116,11 @@ export default {
 
   data: () => ({
     dialog: false,
-    drawer: null,
-    cantidad: 75,
-    intro: true,
-    items: [
-      {
-        title: "GitHub",
-        icon: "mdi-github",
-        href: "https://github.com/marcoscuchian"
-      },
-      {
-        title: "Linkedin",
-        icon: "mdi-linkedin",
-        href: "https://www.linkedin.com/feed/"
-      },
-      {
-        title: "Instagram",
-        icon: "mdi-instagram",
-        href: "https://www.instagram.com/marcoscuchian/"
-      }
-    ]
-    //
+    intro: true
   }),
 
   mounted() {
-    this.getByPokeSt('');
+    this.getByPokeSt("");
   },
   beforeUpdate() {
     this.intro = false;
@@ -126,101 +141,91 @@ export default {
 
 
 <style >
-.v-input__slot {
-  background: black;
+.imgIntro {
+  position: fixed;
+  left: 30%;
+}
+.v-dialog {
+  box-shadow: none !important;
 }
 .pokeCard {
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08), 0 0 6px rgba(0, 0, 0, 0.05);
-  transition: 0.3s transform cubic-bezier(0.155, 1.105, 0.295, 1.12),
-    0.3s box-shadow,
-    0.3s -webkit-transform cubic-bezier(0.155, 1.105, 0.295, 1.12);
-  cursor: pointer;
   background: rgb(66, 61, 61) !important;
 }
 
 .pokeCard:hover {
   transform: scale(1.1);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
-  /* background-image: url('/assets/img/soleado.gif'); */
   cursor: zoom-in;
-
   background: rgba(24, 20, 20, 0.781) !important;
 }
 
 .dialogPoke {
-  background: rgba(128, 128, 0, 0.644) !important;
+  background: rgba(29, 4, 99, 0.822) !important;
   color: white !important ;
   border: 2px solid black;
 }
-.buttAg {
+.verMenos {
   border: 1px solid rgba(255, 255, 255, 0.39);
-}
-
-.imgPoke {
-  border-bottom: 5px solid rgba(0, 0, 0, 0.315) !important ;
 }
 
 .introActive {
   background: rgba(5, 5, 4, 0.705) !important;
   height: 200vh;
   z-index: 100;
-  top: 0;
   position: relative;
-  top: -140px;
-  
+  top: -160px;
 }
 
-
-
 @media only screen and (max-width: 600px) {
-
   .imgIntro {
     position: relative;
     width: 300px;
     left: 50px;
     top: 200px;
   }
-  .pokeCard{
+  .pokeCard {
     width: 140px !important;
     height: 140px !important;
   }
 
-  .ImgCard{
+  .ImgCard {
     position: relative;
     width: 60% !important;
     height: 100px !important;
     bottom: 35px !important;
-    left: 10px !important
-
+    left: 10px !important;
   }
-  .buttonCard{
+  .buttonCard {
     position: relative;
     bottom: 7px !important;
   }
-  .AllCards{
+  .AllCards {
     margin-left: 20px !important;
   }
 
-.dialogPoke {
-  background: rgba(12, 12, 9, 0.644) !important;
-  color: white !important ;
-  border: 2px solid black;
-  width: 300px !important;
-  height: 550px !important;
-  padding-bottom: 0;
-  left: 80px;
+  .dialogPoke {
+    background: rgba(12, 12, 9, 0.644) !important;
+    color: white !important ;
+    border: 2px solid black;
+    width: 300px !important;
+    height: 600px !important;
+    padding-bottom: 0;
+    left: 40px !important;
+  }
+  .dialogPoke h1 {
+    font-size: 25px;
+  }
+
+  .imgPoke {
+    width: 150px !important;
+    height: 150px !important;
+  }
+  .introActive {
+    background: rgba(5, 5, 4, 0.705) !important;
+    height: 200vh;
+    z-index: 100;
+    top: 0;
+    position: relative;
+    top: -200px;
+  }
 }
-.dialogPoke h1{
-  font-size: 25px;
-}
-
-.imgPoke{
-  width: 150px !important;
-  height: 150px !important;
-}
-
-
-}
-
-
 </style>

@@ -10,10 +10,7 @@
 import CardsPokemon from "./components/CardsPokemon";
 import Sidenav from "./components/Sidenav";
 import Prospector from "./components/Prospector";
-import axios from "axios";
-import { mapState } from "vuex";
-import { mapMutations } from "vuex";
-import { mapActions } from "vuex";
+
 
 export default {
   name: "App",
@@ -24,12 +21,6 @@ export default {
     
   },
 
-  data: () => ({
-    //
-  }),
-
-  mounted() {},
-  methods: {}
 };
 </script>
 <style >
@@ -40,7 +31,11 @@ export default {
 @media only screen and (max-width: 600px) {
 #app {
   width: 100%;
+  background: rgba(18, 20, 126, 0.678);
+  height: 100%;
+  padding-top: 20px;
 }
+
 
 }
 </style>
