@@ -41,7 +41,7 @@
               <v-img class="imgPoke" contain :src="imgPokeSelect" height="350px" width="350px"></v-img>
             </v-col>
 
-            <v-col md="8" class="pt-4">
+            <v-col md="8" class="pt-2">
               <v-card-title class="d-flex pa-0 pa-sm-4 justify-center grey darken-4 rounded-xl">
                 <h1 class="text-uppercase">{{pokeSelect.name}}</h1>
               </v-card-title>
@@ -81,22 +81,22 @@
                         </tr>
                         <tr>
                           <td>Es Legendario:</td>
-                          <td v-if="pokeSelect.is_legendary"
-                            
+                          <td
+                            v-if="pokeSelect.is_legendary"
                           >{{pokeSelect.is_legendary.toUpperCase()}}</td>
                         </tr>
                       </tbody>
                     </template>
                   </v-simple-table>
+                  <v-row class="d-flex justify-center">
+                    <v-col sm="6" cols="3" class="d-flex justify-center">
+                      <v-card-actions class="pb-0 pt-3 pt-sm-2">
+                        <v-btn  class="rounded-xl py-0" dark @click="dialog = false">Ver Menos</v-btn>
+                      </v-card-actions>
+                    </v-col>
+                  </v-row>
                 </v-col>
               </v-row>
-            </v-col>
-          </v-row>
-          <v-row class="py-0">
-            <v-col class="py-0">
-              <v-card-actions class="py-0">
-                <v-btn block class="rounded-xl py-0" dark @click="dialog = false">Ver Menos</v-btn>
-              </v-card-actions>
             </v-col>
           </v-row>
         </v-container>
@@ -159,7 +159,7 @@ export default {
 }
 
 .dialogPoke {
-  background: rgba(29, 4, 99, 0.822) !important;
+  background: rgb(54 66 86) !important;
   color: white !important ;
   border: 2px solid black;
 }
@@ -203,11 +203,11 @@ export default {
   }
 
   .dialogPoke {
-    background: rgba(12, 12, 9, 0.644) !important;
+    background: rgb(58, 57, 66) !important;
     color: white !important ;
     border: 2px solid black;
     width: 300px !important;
-    height: 600px !important;
+    height: 650px !important;
     padding-bottom: 0;
     left: 40px !important;
   }

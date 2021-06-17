@@ -25,7 +25,7 @@
     </v-row>
 
     <div class="my-2  float-right seccionSearch " >
-      <v-btn fixed color="error" fab large dark href="#prospector" class="seccionSearch d-none d-sm-flex" title="Ir al Buscador">
+      <v-btn fixed color="error" fab large dark href="#prospector" class="seccionSearch " title="Ir al Buscador">
         <v-icon>mdi-pokeball</v-icon>
       </v-btn>
     </div>

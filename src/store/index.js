@@ -55,7 +55,7 @@ export default new Vuex.Store({
       let response = [];
       const data = await fetch(`https://pokeapi.co/api/v2/pokemon${urlEnd}`);
       const dataJson = await data.json();
-
+      
       if (Array.isArray(dataJson.results)) {
         response = dataJson.results.map(element => {
           const id = element.url.split('pokemon/')[1].replace('/', '');
